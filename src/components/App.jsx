@@ -63,6 +63,7 @@ export class App extends Component {
       number,
     };
 
+
     const alreadyAdded = this.state.contacts.some((el) => el.name === contact.name);
     if (alreadyAdded) {
       alert(`${contact.name} already exists in contacts.`);
@@ -73,6 +74,15 @@ export class App extends Component {
       contacts: [contact, ...prevState.contacts],
     }));
   };
+  componentDidMount() {
+    const contactsParsed = JSON.parse(localStorage.getItem('contacts'))
+    this.setState({contacts: contactsParsed ?? []})
+    }
+  componentDidUpdate(prevProps, prevState) {
+      if (this.state.contacts !== prevState.todos) {
+        localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+      }
+    };
 
   render() {
     return (
